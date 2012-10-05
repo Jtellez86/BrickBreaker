@@ -1,8 +1,8 @@
 module(..., package.seeall)
 
-local storyBoard = require( "storyboard" )
-local widget = require("widget")
-local menuScene = storyBoard.newScene()
+local storyBoard = require("storyboard")
+local gameScene = storyBoard.newScene()
+local game = require("game")
 
 ----------------------------------------------------------------------------------
 -- 
@@ -14,41 +14,19 @@ local menuScene = storyBoard.newScene()
 ---------------------------------------------------------------------------------
 
 -- Called when the scene's view does not exist:
-function menuScene:createScene( event )
-	print("creating menu scene")
+function gameScene:createScene( event )
+	print("creating game scene")
 	
-	local group = self.view
-	
-	
-	local background = display.newImage("assets/background.jpeg")
-	group:insert(background)
-		
-	local onButtonEvent = function (event )	
-		storyBoard.gotoScene( "gameScene"  )
-	end
-		
-	local startButton = widget.newButton{
-				label = "START",
-				width = 150,
-				height = 28,
-				emboss = true,
-				onRelease = onButtonEvent,
-				font = "Bookman Old Style",
-				defaultColor = { 255, 215, 0, 255 },
-				left = display.contentWidth/2-75,
-				top = display.contentHeight/2	
-	}	
-			
-	group:insert(startButton)
-			
+	local group = self.view		
 end
 
 
 -- Called immediately after scene has moved onscreen:
-function menuScene:enterScene( event )
+function gameScene:enterScene( event )
 
-	print("Menu created, entering menu scene")
+	print("setting up game")
 	local group = self.view
+	group:insert(game.setupGame())
 	
 	-----------------------------------------------------------------------------
 		
@@ -60,7 +38,7 @@ end
 
 
 -- Called when scene is about to move offscreen:
-function menuScene:exitScene( event )
+function gameScene:exitScene( event )
 	local group = self.view
 	
 	-----------------------------------------------------------------------------
@@ -73,7 +51,7 @@ end
 
 
 -- Called prior to the removal of scene's "view" (display group)
-function menuScene:destroyScene( event )
+function gameScene:destroyScene( event )
 	local group = self.view
 	
 	-----------------------------------------------------------------------------
@@ -85,19 +63,19 @@ function menuScene:destroyScene( event )
 end
 
 -- "createScene" event is dispatched if scene's view does not exist
-menuScene:addEventListener( "createScene", menuScene )
+gameScene:addEventListener( "createScene", gameScene )
 
 -- "enterScene" event is dispatched whenever scene transition has finished
-menuScene:addEventListener( "enterScene", menuScene )
+gameScene:addEventListener( "enterScene", gameScene )
 
 -- "exitScene" event is dispatched before next scene's transition begins
-menuScene:addEventListener( "exitScene", menuScene )
+gameScene:addEventListener( "exitScene", gameScene )
 
 -- "destroyScene" event is dispatched before view is unloaded, which can be
 -- automatically unloaded in low memory situations, or explicitly via a call to
 -- storyboard.purgeScene() or storyboard.removeScene().
-menuScene:addEventListener( "destroyScene", menuScene )
+gameScene:addEventListener( "destroyScene", gameScene )
 
 ---------------------------------------------------------------------------------
 
-return menuScene
+return gameScene
