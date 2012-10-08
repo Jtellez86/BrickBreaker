@@ -1,5 +1,6 @@
 module(..., package.seeall)
 
+local ceiling, leftWall, rightWall, floor
 local background = display.newImage("assets/background.png")
 local paddle
 local ball = require("ball")
@@ -15,12 +16,13 @@ function setupGame()
 	paddle.x = display.contentWidth/2
 	paddle.y = 450
 	
+	physics.addBody(paddle, "static", {bounce = 1})
+	
 	ball.x = paddle.x
 	ball.y = paddle.y - ball.height
 	
-	gameDisplay:insert(background)
-	gameDisplay:insert(paddle)
-	gameDisplay:insert(ball)
+	addObjectsToDisplay(gameDisplay)
+	setupWalls()
 	
 	background:addEventListener("touch", background)
 	
@@ -30,11 +32,28 @@ end
 
 function background:touch(event)
 	if(event.phase == "began") then 	
-		ball:applyForce(0, -.5, ball.x, ball.y)
+		ball:applyForce(0, -.75, ball.x, ball.y)
 	end
 
 end
 
+function addObjectsToDisplay(gameDisplay)
+	gameDisplay:insert(background)
+	gameDisplay:insert(paddle)
+	gameDisplay:insert(ball)
+	
+end
+
+function setupWalls()
+	ceiling = display.newRect(0, 0, display.contentWidth, .75)
+	leftWall = display.newRect(0, 0, .75, display.contentHeight)
+	rightWall = display.newRect(display.contentWidth, 0, .75, display.contentHeight)
+	
+	physics.addBody(ceiling, "static", {bounce = 1})
+	physics.addBody(leftWall, "static", {bounce = 1})
+	physics.addBody(rightWall, "static", {bounce = 1})
+
+end
 
 -- function startGame()
 -- 	
