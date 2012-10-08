@@ -2,21 +2,15 @@ module(..., package.seeall)
 
 local ceiling, leftWall, rightWall, floor
 local background = display.newImage("assets/background.png")
-local paddle
+local paddle = require("paddle")
 local ball = require("ball")
 
 function setupGame()
 	
 	local gameDisplay = display.newGroup()
 	 
-	paddle = display.newImage("assets/paddle.png")
-	
+	paddle = paddle.create()
 	ball = ball.create()
-	
-	paddle.x = display.contentWidth/2
-	paddle.y = 450
-	
-	physics.addBody(paddle, "static", {bounce = 1})
 	
 	ball.x = paddle.x
 	ball.y = paddle.y - ball.height
