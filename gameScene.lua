@@ -28,6 +28,11 @@ function gameScene:enterScene( event )
 	local group = self.view
 	group:insert(game.setupGame())
 	
+	
+	--then go into game loop
+	-- game.startGame()
+	
+	
 	-----------------------------------------------------------------------------
 		
 	--	INSERT code here (e.g. start timers, load audio, start listeners, etc.)

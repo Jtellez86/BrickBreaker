@@ -20,7 +20,7 @@ function menuScene:createScene( event )
 	local group = self.view
 	
 	
-	local background = display.newImage("assets/background.jpeg")
+	local background = display.newImage("assets/background.png")
 	group:insert(background)
 		
 	local onButtonEvent = function (event )	
